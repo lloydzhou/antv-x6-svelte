@@ -1,6 +1,7 @@
+<svelte:options tag="x6-grid" />
 <script>
-import { getContext, onMount, tick } from 'svelte'
-import { contextSymbol } from '../GraphContext'
+import { onDestroy } from 'svelte'
+import { useContext } from '../GraphContext'
 
 export let visible = true
 export let size = 10
@@ -16,19 +17,25 @@ const defaultOptions = {
   }
 } 
 
-const getGraph = getContext(contextSymbol)
+let graph
 
-onMount(async () => {
-  await tick();
-  const { graph } = getGraph()
+const setup = (context) => {
+  graph = context.graph
+  // console.log('graph in grid', graph)
   if (graph) {
     const options = Object.assign({}, defaultOptions, { visible, size, type })
     graph.clearGrid()
+    // console.log('drawGrid', options)
     graph.drawGrid(options)
-    return () => {
-      graph.clearGrid()
-    }
+  }
+}
+
+onDestroy(() => {
+  // console.log('destroy in grid', graph)
+  if (graph) {
+    graph.clearGrid()
   }
 })
 
 </script>
+<div use:useContext={setup}></div>

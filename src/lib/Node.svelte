@@ -1,7 +1,8 @@
+<svelte:options tag="x6-node" />
 <script>
 import Cell from './Cell.svelte'
 
-export let id
+export let id = undefined
 export let shape = 'rect'
 export let label = ''
 export let x = 0
@@ -11,6 +12,7 @@ export let height = 40
 export let angle = 0
 
 $: props = {
+  ...$$restProps,
   id,
   shape,
   label,
@@ -19,7 +21,10 @@ $: props = {
   x: Number(x) || 0,
   y: Number(y) || 0,
   angle: Number(angle) || 0,
-  ...$$restProps,
+}
+$: {
+  // console.log('props', props, $$restProps)
+  // TODO 这里更新attrs
 }
 
 </script>

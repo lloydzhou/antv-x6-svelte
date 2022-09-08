@@ -1,17 +1,17 @@
+<svelte:options tag="x6-cell" />
 <script>
-import { Node as X6Node, Edge as X6Edge, Shape, Cell as BaseShape } from '@antv/x6'
-import { getContext, onMount, tick, createEventDispatcher, setContext } from 'svelte'
-import { contextSymbol, cellContextSymbol } from './GraphContext'
+import { Node as X6Node, Edge as X6Edge, Cell as BaseShape } from '@antv/x6'
+import { onDestroy, createEventDispatcher } from 'svelte'
+import { writable, get } from 'svelte/store'
+import { useContext } from './GraphContext'
 
-export let id
+export let id = undefined
 export let shape = 'rect'
 
-let cell
+let cell = writable(null)
+let graph
+let parent
 
-setContext(cellContextSymbol, () => ({ cell }))
-
-const getGraph = getContext(contextSymbol)
-const getParent = getContext(cellContextSymbol)
 const dispatch = createEventDispatcher();
 
 $: options = {
@@ -19,38 +19,40 @@ $: options = {
 }
 
 $: {
-  console.log('options', options, $$restProps)
+  // console.log('options', options, $$restProps)
+  // TODO 刷新attrs
 }
 
-onMount(async () => {
-  await tick()
-  const { graph } = getGraph()
-  const { cell: parent } = getParent()
-
+onDestroy(() => {
+  console.log('onDestroy')
+  const item = get(cell)
+  if (parent) {
+    parent.removeChild(item)
+  }
   if (graph) {
-    const ShapeClass = X6Node.registry.get(shape) || X6Edge.registry.get(shape) || BaseShape
-
-    cell = new ShapeClass(options)
-
-    cell.once('added', (e) => dispatch('added', e))
-    cell.once('removed', (e) => dispatch('removed', e))
-    cell.on('cell:change:*', (e) => dispatch('change', e))
-
-    if (parent) {
-      parent.addChild(cell)
-    }
-    graph.addCell(cell)
-    return () => {
-      cell.off('cell:change:*')
-      if (parent) {
-        parent.removeChild(cell)
-      }
-      graph.removeCell(cell)
-      cell = null
-    }
+    graph.removeCell(item)
   }
 })
-</script>
 
-<slot></slot>
+const setup = (context) => {
+  graph = context.graph
+  parent = context.cell
+  // console.log('graph in cell', graph, parent, id, context.host)
+  if (graph) {
+    const ShapeClass = X6Node.registry.get(shape) || X6Edge.registry.get(shape) || BaseShape
+    const item = $cell = new ShapeClass(options)
+
+    item.once('added', (e) => dispatch('added', e))
+    item.once('removed', (e) => dispatch('removed', e))
+    item.on('cell:change:*', (e) => dispatch('change', e))
+    if (parent) {
+      parent.addChild(item)
+    }
+    graph.addCell(item)
+  }
+  return cell
+}
+
+</script>
+<slot use:useContext={setup} />
 
