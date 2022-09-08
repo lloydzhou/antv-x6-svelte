@@ -24,6 +24,10 @@
 ```
 > 其中node1是一个group，包含了node11，拖动node1的时候，node11会一起拖动
 
+
+## online demo
+[codesandbox 使用html标签画x6图形](https://codesandbox.io/s/antv-x6-html-988sgg?file=/index.html)
+
 # TODO
 
 1. 参考[antv-x6-vue](https://github.com/lloydzhou/antv-x6-vue)封装其他组件
