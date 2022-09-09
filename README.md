@@ -8,6 +8,10 @@
 2. 加载x6tag.js（这个是将svelte封装的x6的组件编译成web component之后的代码）
 ```
 <script type="module" src="/dist/x6tag.js"></script>
+
+使用本地编译的文件，或者使用cdn上面编译好的版本
+
+<script type="module" src="https://cdn.jsdelivr.net/gh/lloydzhou/antv-x6-svelte@0.0.2/dist/x6tag.js"></script>
 ```
 
 3. 使用html标签画图
