@@ -1,6 +1,6 @@
 <svelte:options tag="x6-graph"/>
 <script>
-import { Graph } from '@antv/x6'
+import * as X6 from '@antv/x6'
 import { setContext, onMount } from 'svelte'
 import { contextSymbol, cellContextSymbol } from './GraphContext'
 import { writable, get } from 'svelte/store'
@@ -15,7 +15,7 @@ let graph = writable(null)
 setContext(contextSymbol, graph)
 
 onMount(() => {
-  const instance = new Graph({
+  const instance = new X6.Graph({
     container,
     width,
     height,
