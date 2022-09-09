@@ -9,7 +9,7 @@ export default {
   // This `main.js` file we wrote
   input: 'src/lib/index.js',
   output: {
-    file: 'dist/x6tag.js',
+    file: 'dist/index.js',
     format: 'umd',
     name: 'x6tag',
   },
