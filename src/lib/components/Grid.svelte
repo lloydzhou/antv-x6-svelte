@@ -1,7 +1,7 @@
 <svelte:options tag="x6-grid" />
 <script>
 import { onMount } from 'svelte'
-import { usePatentContext, noop } from '../GraphContext'
+import { usePatentContext, noop, get } from '../GraphContext'
 
 export let visible = true
 export let size = 10
@@ -20,7 +20,8 @@ const defaultOptions = {
 let unmount = noop;
 onMount(() => () => unmount())
 
-usePatentContext().then(({ graph }) => {
+usePatentContext().then(context => {
+  const graph = get(context.graph)
   if (graph) {
     const options = Object.assign({}, defaultOptions, { visible, size, type })
     graph.clearGrid()

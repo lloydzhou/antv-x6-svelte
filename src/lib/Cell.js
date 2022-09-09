@@ -1,16 +1,11 @@
-<svelte:options tag={null} />
-<script context="module">
 import { Node as X6Node, Edge as X6Edge, Cell as BaseShape } from '@antv/x6'
-import { onDestroy, createEventDispatcher, setContext } from 'svelte'
 import { writable, get } from 'svelte/store'
-import { useContext } from './GraphContext'
-import { onMount } from 'svelte'
-import { usePatentContext, noop, cellContextSymbol } from './GraphContext'
+import { usePatentContext, noop } from './GraphContext'
 
 export const useCell = (context, options, cell, dispatch) => {
   const graph = get(context.graph)
   const parent = get(context.parent)
-  console.log('graph in cell', graph, parent, options)
+  // console.log('graph in cell', graph, parent, options)
   if (graph) {
     const { shape } = options
     const ShapeClass = X6Node.registry.get(shape) || X6Edge.registry.get(shape) || BaseShape
@@ -26,7 +21,7 @@ export const useCell = (context, options, cell, dispatch) => {
     graph.addCell(item)
   }
   return () => {
-    console.log('onDestroy')
+    // console.log('onDestroy')
     const item = get(cell)
     if (parent) {
       parent.removeChild(item)
@@ -36,5 +31,4 @@ export const useCell = (context, options, cell, dispatch) => {
     }
   }
 }
-</script>
 

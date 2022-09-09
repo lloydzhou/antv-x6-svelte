@@ -1,6 +1,13 @@
 <svelte:options tag="x6-node" />
 <script>
-import Cell from './Cell.svelte'
+import { useCell } from './Cell'
+import { usePatentContext, noop, cellContextSymbol } from './GraphContext'
+import { writable, get } from 'svelte/store'
+import { setContext, createEventDispatcher, onMount } from 'svelte'
+
+let cell = writable(null)
+setContext(cellContextSymbol, cell)
+const dispatch = createEventDispatcher();
 
 export let id = undefined
 export let shape = 'rect'
@@ -27,8 +34,12 @@ $: {
   // TODO 这里更新attrs
 }
 
-</script>
+let unmount = noop;
+onMount(() => () => unmount())
 
-<Cell {...props}>
-  <slot></slot>
-</Cell>
+usePatentContext().then(context => {
+  unmount = useCell(context, props, cell, dispatch)
+})
+
+</script>
+<slot></slot>
