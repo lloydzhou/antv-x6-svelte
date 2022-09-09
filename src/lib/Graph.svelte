@@ -4,8 +4,9 @@ import * as X6 from '@antv/x6'
 import { setContext, onMount } from 'svelte'
 import { contextSymbol, cellContextSymbol } from './GraphContext'
 import { writable } from 'svelte/store'
-import insertCss from 'insert-css'
-import css from '@antv/x6/es/index.css';
+// import insertCss from 'insert-css'
+// import css from '@antv/x6/es/index.css';
+// 不使用js的方式加载，而是直接加载外部css资源，减少库的体积
 
 export let width = 800
 export let height = 600
@@ -23,7 +24,7 @@ onMount(() => {
     panning: !!panning,
   })
 
-  insertCss(css, { container })
+  // insertCss(css, { container })
 
   return () => {
     console.log('onUnMount')
@@ -33,6 +34,7 @@ onMount(() => {
 
 </script>
 
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/antv-x6/1.34.0/x6.min.css">
 <div class="graph-contaner" style="width: 100%;height: 100%; position: relative;">
   <div bind:this={container} data-testid="custom-element" class="graph-core" style="width: 100%;height: 100%;"></div>
   <div class="graph-component">
