@@ -1,7 +1,7 @@
 <svelte:options tag="x6-background" />
 <script>
-import { onDestroy } from 'svelte'
-import { useContext } from '../GraphContext'
+import { onMount } from 'svelte'
+import { usePatentContext, noop, get } from '../GraphContext'
 
 export let enabled = true
 
@@ -9,25 +9,22 @@ const defaultOptions = {
   color: '#f5f5f5',
 }
 
-let graph
+let unmount = noop;
+onMount(() => () => unmount())
 
-const setup = (context) => {
-  graph = context.graph
-  // console.log('graph in background', graph)
+usePatentContext().then(context => {
+  const graph = get(context.graph)
   if (graph) {
     const options = Object.assign({}, defaultOptions, { enabled })
     graph.clearBackground()
     // console.log('drawBackground', options)
     graph.drawBackground(options)
   }
-}
-
-onDestroy(() => {
-  // console.log('destroy in background', graph)
-  if (graph) {
-    graph.clearBackground()
+  unmount = () => {
+    // console.log('clearBackground')
+    if (graph) {
+      graph.clearBackground()
+    }
   }
 })
-
 </script>
-<div use:useContext={setup}></div>
