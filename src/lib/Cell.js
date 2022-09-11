@@ -1,6 +1,5 @@
 import { Node as X6Node, Edge as X6Edge, Cell as BaseShape } from '@antv/x6'
 import { writable, get } from 'svelte/store'
-import { usePatentContext, noop } from './GraphContext'
 
 export const useCell = (context, options, cell, dispatch) => {
   const graph = get(context.graph)

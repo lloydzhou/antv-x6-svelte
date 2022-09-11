@@ -1,9 +1,10 @@
 <svelte:options tag="x6-edge"/>
 <script>
 import { useCell } from './Cell'
-import { usePatentContext, noop, cellContextSymbol } from './GraphContext'
+import { getContext, cellContextSymbol } from './GraphContext'
 import { writable, get } from 'svelte/store'
 import { setContext, createEventDispatcher, onMount } from 'svelte'
+import { get_current_component } from 'svelte/internal'
 
 export let id = undefined
 export let shape = 'edge'
@@ -22,10 +23,9 @@ $: props = {
   target,
 }
 
-let unmount = noop;
-onMount(() => () => unmount())
-
-usePatentContext().then(context => {
-  unmount = useCell(context, props, cell, dispatch)
+const self = get_current_component()
+onMount(() => {
+  const context = getContext(self)
+  return useCell(context, props, cell, dispatch)
 })
 </script>
