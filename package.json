@@ -1,7 +1,7 @@
 {
   "name": "antv-x6-component",
   "description": "antv x6 svelte as web component",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "dist/index.js",
   "scripts": {
     "dev": "vite",
