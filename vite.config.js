@@ -8,5 +8,8 @@ export default defineConfig({
     compilerOptions: {
       customElement: true,
     },
+    // https://github.com/WICG/webcomponents/issues/829
+    // 编译webcomponent的时候，开启hmr报错
+    hot: false,
   })]
 })

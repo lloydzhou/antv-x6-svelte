@@ -11,7 +11,7 @@
 
 使用本地编译的文件，或者使用cdn上面编译好的版本
 
-<script type="module" src="https://cdn.jsdelivr.net/gh/lloydzhou/antv-x6-svelte@0.0.3/dist/index.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/gh/lloydzhou/antv-x6-svelte@0.0.4/dist/index.js"></script>
 ```
 
 3. 使用html标签画图
