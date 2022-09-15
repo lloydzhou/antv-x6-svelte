@@ -1,5 +1,5 @@
 import { get_current_component, raf } from 'svelte/internal'
-import { setContext, tick } from 'svelte'
+import { setContext, tick, createEventDispatcher } from 'svelte'
 import { get } from 'svelte/store'
 
 export const contextSymbol = String(Symbol('x6ContextSymbol'))
@@ -24,3 +24,8 @@ export function getContext(self) {
 
 export { get } from 'svelte/store'
 
+export const dispatch = (component, svelteDispatch, name, detail) => {
+  // console.log(`svelte: ${name}`, component, svelteDispatch);
+  svelteDispatch(name, detail);
+  component.dispatchEvent && component.dispatchEvent(new CustomEvent(name, { detail }));
+};

@@ -11,9 +11,9 @@ export const useCell = (context, options, cell, dispatch) => {
     const item = new ShapeClass(options)
     cell.set(item)
 
-    item.once('added', (e) => dispatch('added', e))
-    item.once('removed', (e) => dispatch('removed', e))
-    item.on('cell:change:*', (e) => dispatch('change', e))
+    item.once('added', (e) => dispatch('load', e) && dispatch('added', e))
+    item.once('removed', (e) => dispatch('close', e) && dispatch('removed'))
+    item.on('change:*', (e) => dispatch('change', e))
     if (parent) {
       parent.addChild(item)
     }

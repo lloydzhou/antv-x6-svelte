@@ -1,9 +1,10 @@
 <svelte:options tag="x6-graph"/>
 <script>
 import * as X6 from '@antv/x6'
-import { setContext, onMount } from 'svelte'
-import { contextSymbol, cellContextSymbol } from './GraphContext'
+import { setContext, onMount, createEventDispatcher } from 'svelte'
+import { contextSymbol, cellContextSymbol, dispatch } from './GraphContext'
 import { writable, get } from 'svelte/store'
+import { get_current_component } from 'svelte/internal'
 
 export let width = 800
 export let height = 600
@@ -14,6 +15,9 @@ let graph = writable(null)
 
 setContext(contextSymbol, graph)
 
+const self = get_current_component()
+const svelteDispatch = createEventDispatcher()
+
 onMount(() => {
   const instance = new X6.Graph({
     container,
@@ -23,6 +27,7 @@ onMount(() => {
   })
 
   graph.set(instance)
+  dispatch(self, svelteDispatch, 'load', instance)
 
   return () => {
     instance.dispose()

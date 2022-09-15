@@ -8,7 +8,7 @@
 </script>
 
 <main>
-  <x6-graph>
+  <x6-graph onready="console.log('ready', event)">
     <x6-background />
     <x6-grid />
     <x6-node id="1" label="node1" x={100} y={100} width={250} height={120}>
