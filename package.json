@@ -1,7 +1,7 @@
 {
   "name": "antv-x6-component",
   "description": "antv x6 svelte as web component",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "dist/index.js",
   "scripts": {
     "dev": "vite",
@@ -36,7 +36,7 @@
   ],
   "peerDependencies": {
     "@antv/x6": "^1.33.1",
-    "antv-x6-html2": "^1.0.5",
+    "antv-x6-html2": "^1.0.7",
     "vue": "^3.2.31"
   },
   "author": "lloydzhou",
